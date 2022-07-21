@@ -8,22 +8,26 @@ import { api } from './api/api';
 export class App extends Component {
   state = {
     q: '',
-    page: 1,
+    // page: 1,
   };
 
-  async componentDidMount() {
-    const { data } = await api.get(
-      '?q=cat&page=1&image_type=photo&orientation=horizontal&per_page=12'
-    );
-    console.log(data);
-  }
+  formSubmitHandle = ({}) => {};
 
-  async componentDidUpdate() {}
+  async componentDidUpdate() {
+    try {
+      const { data } = await api.get(
+        '?q=cat&page=1&image_type=photo&orientation=horizontal&per_page=12'
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   render() {
     return (
       <Box>
-        <Searchbar />
+        <Searchbar onSubmit={this.formSubmitHandle} />
         <ImageGallery />
         <Button />
       </Box>
