@@ -2,8 +2,8 @@ import { Overlay, ModalWrapper } from './Modal.styled';
 
 export const Modal = () => {
   return (
-    <Overlay class="overlay">
-      <ModalWrapper class="modal">
+    <Overlay>
+      <ModalWrapper>
         <img src="" alt="" />
       </ModalWrapper>
     </Overlay>

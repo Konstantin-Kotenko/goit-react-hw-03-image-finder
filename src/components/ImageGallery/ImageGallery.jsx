@@ -3,7 +3,7 @@ import { List } from './ImageGallery.styled';
 
 export const ImageGallery = () => {
   return (
-    <List class="gallery">
+    <List>
       <Item />
     </List>
   );
