@@ -10,14 +10,13 @@ export class ImageGallery extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.search);
     if (prevProps.search !== this.props.search) {
       this.setState({ loading: true });
       try {
         const { data } = await api.get(
           `?q=${this.props.search}&page=1&image_type=photo&orientation=horizontal&per_page=12`
         );
-        console.log(data);
+        console.log(data.hits.map(hit => hit.id));
         this.setState({ data });
       } catch (error) {
         console.log(error);
@@ -28,10 +27,12 @@ export class ImageGallery extends Component {
   }
 
   render() {
+    const { loading, data } = this.state;
+
     return (
       <List>
-        {this.state.loading && <div>Loading</div>}
-        {this.state.data && <Item />}
+        {loading && <div>Loading</div>}
+        {data && <Item onData={data} />}
       </List>
     );
   }

@@ -1,9 +1,10 @@
 import { GalleryItem, Images } from './Item.styled';
 
-export const Item = () => {
-  return (
-    <GalleryItem>
-      <Images src="" alt="" />
-    </GalleryItem>
-  );
+export const Item = ({ onData }) => {
+  console.log(onData);
+  return onData.hits.map(hit => {
+    <GalleryItem id={hit.id}>
+      <Images src={hit.webformatURL} alt="" />
+    </GalleryItem>;
+  });
 };
