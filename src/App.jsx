@@ -4,7 +4,6 @@ import { Searchbar } from './components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Button } from './components/Button';
 import * as API from './api/api';
-import { Modal } from './components/Modal';
 
 export class App extends Component {
   state = {
@@ -18,14 +17,6 @@ export class App extends Component {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
-  };
-
-  onToggleModal = () => {
-    const { isShowModal } = this.state.isShowModal;
-    this.setState({ isShowModal: !isShowModal });
-    if (!isShowModal) {
-      this.setState({ isShowModal: isShowModal });
-    }
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -46,16 +37,27 @@ export class App extends Component {
     this.setState({ search: values });
   };
 
+  onToggleModal = () => {
+    const { isShowModal } = this.state.isShowModal;
+    this.setState({ isShowModal: !isShowModal });
+    if (!isShowModal) {
+      this.setState({ isShowModal: isShowModal });
+    }
+  };
+
   render() {
     const { items, isShowModal } = this.state;
     return (
       <Box>
         <Searchbar onSubmit={this.onFormSubmit} />
         {items.length !== 0 && (
-          <ImageGallery images={items} onClick={this.onToggleModal} />
+          <ImageGallery
+            images={items}
+            onClick={this.onToggleModal}
+            isShowModal={isShowModal}
+          />
         )}
         {items.length !== 0 && <Button onLoadMore={this.onloadMore} />}
-        {isShowModal && <Modal images={items} onClick={this.onToggleModal} />}
       </Box>
     );
   }
