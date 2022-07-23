@@ -5,7 +5,6 @@ import { Button, Header, SearchForm, Input } from './Searchbar.styled';
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = ({ search }, { resetForm }) => {
     onSubmit(search);
-    console.log();
     resetForm();
   };
   return (
