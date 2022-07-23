@@ -17,14 +17,13 @@ export class App extends Component {
       try {
         API.searchParams.q = search;
         const { hits } = await API.getImages(API.searchParams);
-        console.log(hits);
-        console.log(this.state.items);
+        this.setState({ items: hits });
       } catch (error) {}
     }
   }
 
-  onFormSubmit = search => {
-    this.setState({ search });
+  onFormSubmit = values => {
+    this.setState({ search: values });
   };
 
   render() {
