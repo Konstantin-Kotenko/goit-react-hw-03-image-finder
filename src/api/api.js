@@ -7,3 +7,20 @@ export const api = axios.create({
     key: API_KEY,
   },
 });
+
+export const searchParams = {
+  q: '',
+  page: 1,
+  image_type: 'photo',
+  orientation: 'horizontal',
+  per_page: 12,
+};
+
+export const getImages = async () => {
+  try {
+    const { data } = await api.get('', { params: searchParams });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
