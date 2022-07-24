@@ -22,26 +22,31 @@ export class App extends Component {
   async componentDidUpdate(prevProps, prevState) {
     const { search, page } = this.state;
     if (prevState.search !== search || prevState.page !== page) {
+      API.searchParams.q = search;
+      API.searchParams.page = page;
       try {
-        API.searchParams.q = search;
-        API.searchParams.page = page;
         const { hits } = await API.getImages(API.searchParams);
         this.setState({
-          items: prevState.items ? [...prevState.items, ...hits] : hits,
+          items:
+            prevState.search !== search ? hits : [...prevState.items, ...hits],
         });
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
   onFormSubmit = values => {
-    this.setState({ search: values });
+    this.setState({
+      search: values,
+      page: 1,
+    });
   };
 
   onToggleModal = () => {
-    const { isShowModal } = this.state.isShowModal;
-    this.setState({ isShowModal: !isShowModal });
+    const { isShowModal } = this.state;
     if (!isShowModal) {
-      this.setState({ isShowModal: isShowModal });
+      this.setState({ isShowModal: !isShowModal });
     }
   };
 

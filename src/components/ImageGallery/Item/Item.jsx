@@ -6,8 +6,8 @@ export const Item = ({ id, src, tag, onClick, largeImageURL, isShowModal }) => {
     <GalleryItem id={id} key={id}>
       <Images src={src} alt={tag} onClick={onClick} />
       {isShowModal && (
-        <Modal>
-          <img id={id} src={largeImageURL} alt={tag} onClick={onClick} />
+        <Modal onClick={onClick}>
+          <img src={largeImageURL} alt={tag} />
         </Modal>
       )}
     </GalleryItem>
