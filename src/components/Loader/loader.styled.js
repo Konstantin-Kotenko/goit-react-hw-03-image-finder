@@ -39,7 +39,7 @@ export const LoaderBox = styled.div`
   position: relative;
   width: 150px;
   height: 150px;
-  background-color: #3f51b5;
+  background-color: ${({ theme }) => theme.colors.primary};
   border-radius: 50%;
   @media screen and (max-width: 500px) {
     width: 70px;
@@ -71,10 +71,17 @@ export const LoaderBox = styled.div`
       width: 10px;
       height: 10px;
     }
-    background-color: #3f51b5;
-    box-shadow: 0 0 10px #3f51b5, 0 0 20px #3f51b5, 0 0 30px #3f51b5,
-      0 0 40px #3f51b5, 0 0 50px #3f51b5, 0 0 60px #3f51b5, 0 0 70px #3f51b5,
-      0 0 80px #3f51b5, 0 0 90px #3f51b5, 0 0 100px #3f51b5;
+    background-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 10px ${({ theme }) => theme.colors.primary},
+      0 0 20px ${({ theme }) => theme.colors.primary},
+      0 0 30px ${({ theme }) => theme.colors.primary},
+      0 0 40px ${({ theme }) => theme.colors.primary},
+      0 0 50px ${({ theme }) => theme.colors.primary},
+      0 0 60px ${({ theme }) => theme.colors.primary},
+      0 0 70px ${({ theme }) => theme.colors.primary},
+      0 0 80px ${({ theme }) => theme.colors.primary},
+      0 0 90px ${({ theme }) => theme.colors.primary},
+      0 0 100px ${({ theme }) => theme.colors.primary};
     border-radius: 50%;
     z-index: 15;
   }
@@ -93,5 +100,5 @@ export const LoaderBoxElem = styled.span`
     left: 5px;
   }
   border-radius: 50%;
-  background-color: #dcdcdc;
+  background-color: ${({ theme }) => theme.colors.third};
 `;
