@@ -1,11 +1,11 @@
 import { Component } from 'react';
-import { TailSpin } from 'react-loader-spinner';
 import { Box } from './components/Box';
 import { Searchbar } from './components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Button } from './components/Button';
 import * as API from './api/api';
 import { Modal } from './components/Modal';
+import { Loader } from 'components/Loader';
 
 export class App extends Component {
   state = {
@@ -66,17 +66,7 @@ export class App extends Component {
     return (
       <Box>
         <Searchbar onSubmit={this.onFormSubmit} />
-        {loading && (
-          <TailSpin
-            height="80"
-            width="80"
-            radius="9"
-            color="green"
-            ariaLabel="three-dots-loading"
-            wrapperStyle
-            wrapperClass
-          />
-        )}
+        {loading && <Loader />}
         {items.length !== 0 && (
           <ImageGallery images={items} onClick={this.onToggleModal} />
         )}
