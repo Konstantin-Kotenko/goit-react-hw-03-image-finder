@@ -1,4 +1,4 @@
-import { Item } from './Item/Item';
+import { Item } from './Item';
 import { List } from './ImageGallery.styled';
 
 export const ImageGallery = ({ images, onClick }) => {
