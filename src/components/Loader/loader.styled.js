@@ -40,7 +40,7 @@ export const LoaderBox = styled.div`
   width: 150px;
   height: 150px;
   background-color: ${({ theme }) => theme.colors.primary};
-  border-radius: 50%;
+  border-radius: ${({ theme }) => theme.radii.round};
   @media screen and (max-width: 500px) {
     width: 70px;
     height: 70px;
@@ -99,6 +99,6 @@ export const LoaderBoxElem = styled.span`
     bottom: 5px;
     left: 5px;
   }
-  border-radius: 50%;
+  border-radius: ${({ theme }) => theme.radii.round};
   background-color: ${({ theme }) => theme.colors.third};
 `;

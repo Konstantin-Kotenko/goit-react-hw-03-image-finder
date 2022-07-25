@@ -10,12 +10,9 @@ export const Header = styled.header`
   justify-content: center;
   align-items: center;
   min-height: 64px;
-  padding-right: 24px;
-  padding-left: 24px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  color: #fff;
-  background-color: #3f51b5;
+  padding: ${({ theme }) => theme.space.ml} ${({ theme }) => theme.space.l};
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.primary};
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 `;
@@ -25,8 +22,8 @@ export const SearchForm = styled(Form)`
   align-items: center;
   width: 100%;
   max-width: 600px;
-  background-color: #fff;
-  border-radius: 3px;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.radii.normal};
   overflow: hidden;
 `;
 
@@ -52,14 +49,14 @@ export const Input = styled(Field)`
   display: inline-block;
   width: 100%;
   font: inherit;
-  font-size: 20px;
-  border: none;
+  font-size: ${({ theme }) => theme.fontSizes.m};
+  border: ${({ theme }) => theme.borders.none};
   outline: none;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-left: ${({ theme }) => theme.space.m};
+  padding-right: ${({ theme }) => theme.space.m};
   &::placeholder {
-    padding-left: 10px;
+    padding-left: ${({ theme }) => theme.space.ml};
     font: inherit;
-    font-size: 18px;
+    font-size: ${({ theme }) => theme.fontSizes.m};
   }
 `;
