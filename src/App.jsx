@@ -1,9 +1,11 @@
 import { Component } from 'react';
+import { TailSpin } from 'react-loader-spinner';
 import { Box } from './components/Box';
 import { Searchbar } from './components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Button } from './components/Button';
 import * as API from './api/api';
+import { Modal } from './components/Modal';
 
 export class App extends Component {
   state = {
@@ -11,6 +13,19 @@ export class App extends Component {
     items: [],
     page: 1,
     isShowModal: false,
+    loading: false,
+  };
+
+  onToggleModal = e => {
+    this.setState(({ isShowModal }) => ({
+      isShowModal: !isShowModal,
+    }));
+    if (!this.state.isShowModal) {
+      this.setState({
+        largeImageURL: e.target.dataset.set,
+        alt: e.target.alt,
+      });
+    }
   };
 
   onloadMore = () => {
@@ -24,6 +39,7 @@ export class App extends Component {
     if (prevState.search !== search || prevState.page !== page) {
       API.searchParams.q = search;
       API.searchParams.page = page;
+      this.setState({ loading: true });
       try {
         const { hits } = await API.getImages(API.searchParams);
         this.setState({
@@ -32,6 +48,8 @@ export class App extends Component {
         });
       } catch (error) {
         console.log(error);
+      } finally {
+        this.setState({ loading: false });
       }
     }
   }
@@ -43,24 +61,29 @@ export class App extends Component {
     });
   };
 
-  onToggleModal = () => {
-    const { isShowModal } = this.state;
-    if (!isShowModal) {
-      this.setState({ isShowModal: !isShowModal });
-    }
-  };
-
   render() {
-    const { items, isShowModal } = this.state;
+    const { items, isShowModal, largeImageURL, alt, loading } = this.state;
     return (
       <Box>
         <Searchbar onSubmit={this.onFormSubmit} />
-        {items.length !== 0 && (
-          <ImageGallery
-            images={items}
-            onClick={this.onToggleModal}
-            isShowModal={isShowModal}
+        {loading && (
+          <TailSpin
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="three-dots-loading"
+            wrapperStyle
+            wrapperClass
           />
+        )}
+        {items.length !== 0 && (
+          <ImageGallery images={items} onClick={this.onToggleModal} />
+        )}
+        {isShowModal && (
+          <Modal onClose={this.onToggleModal}>
+            <img src={largeImageURL} alt={alt} />
+          </Modal>
         )}
         {items.length !== 0 && <Button onLoadMore={this.onloadMore} />}
       </Box>
