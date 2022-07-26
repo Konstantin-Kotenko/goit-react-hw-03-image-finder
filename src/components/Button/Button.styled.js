@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LoadMore = styled.button`
+export const Button = styled.button`
   width: 150px;
   padding: ${({ theme }) => theme.space.ml} ${({ theme }) => theme.space.l};
   border-radius: ${({ theme }) => theme.radii.normal};

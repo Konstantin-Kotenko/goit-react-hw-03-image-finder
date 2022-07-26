@@ -106,7 +106,7 @@ export class App extends Component {
           </Modal>
         )}
         {items.length >= 12 && !(items.length % 12) && (
-          <Button onLoadMore={this.onloadMore} />
+          <Button onClick={this.onloadMore}>Load more</Button>
         )}
       </Box>
     );
