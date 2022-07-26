@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Notiflix } from 'notiflix';
 import { API_KEY, BASE_URL } from 'constants/apiService';
 
 export const api = axios.create({
@@ -19,7 +20,7 @@ export const getImages = async params => {
       },
     });
     return data;
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    Notiflix.Notify.success(`Sorry ${e}`);
   }
 };

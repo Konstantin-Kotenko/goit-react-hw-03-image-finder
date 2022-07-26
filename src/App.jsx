@@ -15,6 +15,7 @@ export class App extends Component {
     page: 1,
     isShowModal: false,
     loading: false,
+    totalHits: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -27,14 +28,26 @@ export class App extends Component {
             q: '',
           });
         }
-        const { hits, total } = await API.getImages({ q, page });
-        Notiflix.Notify.success(total);
-        console.log(total, hits);
+        const { hits, totalHits } = await API.getImages({ q, page });
+        console.log(totalHits);
+        if (totalHits || hits.length) {
+          if (page === 1) {
+            Notiflix.Notify.success(` We found ${totalHits} images.`);
+          }
+          if (page >= 1) {
+            this.setState({
+              totalHits: totalHits,
+            });
+          }
+        }
+        if (hits.length < 12) {
+          Notiflix.Notify.success(`Sorry no more found images for "${q}"`);
+        }
         this.setState({
           items: prevState.q !== q ? hits : [...prevState.items, ...hits],
         });
       } catch (error) {
-        Notiflix.Notify.failure(error);
+        Notiflix.Notify.failure('Last page');
       } finally {
         this.setState({ loading: false });
       }
@@ -92,7 +105,9 @@ export class App extends Component {
             <img src={largeImageURL} alt={alt} />
           </Modal>
         )}
-        {items.length >= 12 && <Button onLoadMore={this.onloadMore} />}
+        {items.length >= 12 && !(items.length % 12) && (
+          <Button onLoadMore={this.onloadMore} />
+        )}
       </Box>
     );
   }
