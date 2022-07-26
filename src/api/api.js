@@ -8,17 +8,16 @@ export const api = axios.create({
   },
 });
 
-export const searchParams = {
-  q: '',
-  page: 1,
-  image_type: 'photo',
-  orientation: 'horizontal',
-  per_page: 12,
-};
-
-export const getImages = async () => {
+export const getImages = async params => {
   try {
-    const { data } = await api.get('', { params: searchParams });
+    const { data } = await api.get('', {
+      params: {
+        ...params,
+        image_type: 'photo',
+        orientation: 'horizontal',
+        per_page: 12,
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);
