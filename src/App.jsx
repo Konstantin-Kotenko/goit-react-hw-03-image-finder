@@ -1,12 +1,12 @@
 import { Component } from 'react';
-import { Box } from './components/Box';
+import Notiflix from 'notiflix';
+import { Container } from './components/Container';
 import { Searchbar } from './components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Button } from './components/Button';
 import * as API from './api/api';
 import { Modal } from './components/Modal';
 import { Loader } from 'components/Loader';
-import Notiflix from 'notiflix';
 
 export class App extends Component {
   state = {
@@ -16,6 +16,7 @@ export class App extends Component {
     isShowModal: false,
     loading: false,
     totalHits: null,
+    lastPage: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -25,11 +26,11 @@ export class App extends Component {
       try {
         if (q === '') {
           return this.setState({
+            items: [],
             q: '',
           });
         }
         const { hits, totalHits } = await API.getImages({ q, page });
-        console.log(totalHits);
         if (totalHits || hits.length) {
           if (page === 1) {
             Notiflix.Notify.success(` We found ${totalHits} images.`);
@@ -37,11 +38,12 @@ export class App extends Component {
           if (page >= 1) {
             this.setState({
               totalHits: totalHits,
+              lastPage: Math.ceil(totalHits / 12),
             });
           }
         }
         if (hits.length < 12) {
-          Notiflix.Notify.success(`Sorry no more found images for "${q}"`);
+          Notiflix.Notify.failure(`Sorry no more found images for "${q}"`);
         }
         this.setState({
           items: prevState.q !== q ? hits : [...prevState.items, ...hits],
@@ -57,20 +59,26 @@ export class App extends Component {
   onFormSubmit = values => {
     const { q } = this.state;
     if (values === q && values !== '') {
-      return Notiflix.Notify.failure('Please entry new name');
-    } else if (values === '') {
+      Notiflix.Notify.failure('Please entry new name');
+      return this.setState({
+        items: [],
+        q: '',
+        page: 1,
+        totalHits: null,
+      });
+    }
+    if (values === '') {
       this.setState({
         items: [],
-        q: values,
+        q: '',
         page: 1,
       });
       Notiflix.Notify.failure('Please entry name');
-    } else {
-      this.setState({
-        q: values,
-        page: 1,
-      });
     }
+    this.setState({
+      q: values,
+      page: 1,
+    });
   };
 
   onToggleModal = e => {
@@ -92,9 +100,10 @@ export class App extends Component {
   };
 
   render() {
-    const { items, isShowModal, largeImageURL, alt, loading } = this.state;
+    const { items, isShowModal, largeImageURL, alt, loading, page, lastPage } =
+      this.state;
     return (
-      <Box>
+      <Container>
         <Searchbar onSubmit={this.onFormSubmit} />
         {loading && <Loader />}
         {items.length !== 0 && (
@@ -105,10 +114,10 @@ export class App extends Component {
             <img src={largeImageURL} alt={alt} />
           </Modal>
         )}
-        {items.length >= 12 && !(items.length % 12) && (
+        {items.length >= 12 && page !== lastPage && (
           <Button onClick={this.onloadMore}>Load more</Button>
         )}
-      </Box>
+      </Container>
     );
   }
 }
